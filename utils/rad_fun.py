@@ -124,17 +124,13 @@ def returnAll(radar, field):
 
 def removeDuplicate(angles, tilts):
     
-    dupTilts = []
     for idx, ang in enumerate(angles):
-        if len(np.where(angles == ang)[0]) > 1:
-            dupTilts.append(idx)
-            
-    goodTilts = tilts.copy()
+        loc = np.where(angles == ang)[0]
+        if len(loc) > 1:
+            del tilts[loc[1]]
+            del angles[loc[1]]
     
-    if len(dupTilts) > 0:
-        del goodTilts[dupTilts[1]]
-    
-    return goodTilts
+    return tilts, angles
 
 def extractSweeps(radar, tilts):
     
