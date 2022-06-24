@@ -14,6 +14,17 @@ import numpy as np
 import pyart
 
 def create_plotDict(var):
+    """
+    Creates a dictionary used in the plotting functions
+
+    Parameters
+    ----------
+    var : str - Name of variable to return plotting information for
+
+    Returns
+    -------
+    plot_dict : dict - dictionary of plotting information
+    """
     magma_cmap = plt.get_cmap('magma_r')
     grays_cmap = plt.get_cmap('gray_r')
     rdbu_cmap = plt.get_cmap('RdBu_r')
@@ -64,6 +75,20 @@ def create_plotDict(var):
     return plot_dict
 
 def xytoR(x, y, azi_mean):
+    """
+    Calculates R used to plot RHIs
+
+    Parameters
+    ----------
+    x : array - Array of x values
+    y : array - Array of y values
+    azi_mean : float - value of average azimuth
+
+    Returns
+    -------
+    R : array - array of R values
+    """
+
     if 89.5 <= azi_mean <= 90.0:
         R = np.sqrt(x ** 2 + y ** 2) * np.sign(x)
     else:
@@ -73,6 +98,24 @@ def xytoR(x, y, azi_mean):
 def plotRHI(ax, azimuth, display_rhi, plot_var, muted=False, muted_var = None,
             aspect_ratio=5, xlims=(0,200), ylims=(0,6),title_meta_flag=True,
             title_var_flag=True, colorbar_flag=True, xax_label=True, yax_label=True):
+    """
+    This function plots RHIs
+    :param ax: axes object to plot on
+    :param azimuth: value of RHI azimuth
+    :param display_rhi: pyart display object with RHI information
+    :param plot_var: str - variable to plot
+    :param muted: bool - to mute (True) variable or not (False)
+    :param muted_var: str - muted variable
+    :param aspect_ratio: int - aspect ratio
+    :param xlims: tuple of ints - x axis limits
+    :param ylims: tuples of ints - y axis limits
+    :param title_meta_flag: bool - to show metadata tile
+    :param title_var_flag: bool - to show variable title
+    :param colorbar_flag: bool - to plot colorbar
+    :param xax_label: bool - to plot xaxis labels
+    :param yax_label: bool - to plot yaxis labels
+    :return: ax with plot
+    """
 
     plot_dict = create_plotDict(plot_var)
 
@@ -129,10 +172,29 @@ def plotRHI(ax, azimuth, display_rhi, plot_var, muted=False, muted_var = None,
     return ax
 
 
-def plotPPI(ax, azimuth, display_ppi, plot_var, elev_angle=0.5, muted=False, muted_var = None,
+def plotPPI(ax, display_ppi, plot_var, elev_angle=0.5, muted=False, muted_var = None,
             xlims=(-200,200), ylims=(-200, 200),title_flag=False,
             colorbar_flag=True, xax_label=True, yax_label=True,
-            plot_RHI_loc=False, RHI_loc_color=None):
+            plot_RHI_loc=False, azimuth=None, RHI_loc_color=None):
+    """
+    This function plots PPIs
+    :param ax: axes object to plot on
+    :param display_ppi: pyart display object with PPI information
+    :param plot_var: str - variable to plot
+    :param elev_angle: float - elevation angle to plot
+    :param muted: bool - to mute (True) variable or not (False)
+    :param muted_var: str - muted variable
+    :param xlims: tuple of ints - x axis limits
+    :param ylims: tuples of ints - y axis limits
+    :param title_flag: bool - to show metadata tile
+    :param colorbar_flag: bool - to plot colorbar
+    :param xax_label: bool - to plot xaxis labels
+    :param yax_label: bool - to plot yaxis labels
+    :param plot_RHI_loc: bool - to plot location of an RHI
+    :param azimuth: value of RHI azimuth
+    :param RHI_loc_color: str - color of azimuth
+    :return: ax with plot
+    """
 
     plot_dict = create_plotDict(plot_var)
 
