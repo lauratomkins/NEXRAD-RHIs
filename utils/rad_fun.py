@@ -127,9 +127,10 @@ def removeDuplicate(angles, tilts):
     for idx, ang in enumerate(angles):
         loc = np.where(angles == ang)[0]
         if len(loc) > 1:
-            del tilts[loc[1]]
-            del angles[loc[1]]
-    
+            for element in sorted(loc[1:], reverse=True):
+                del tilts[element]
+                del angles[element]
+
     return tilts, angles
 
 def extractSweeps(radar, tilts):
